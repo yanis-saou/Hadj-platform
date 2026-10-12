@@ -5,7 +5,6 @@ redirigerSiNonAutorise('user');
 
 $nin = $_SESSION['user_nin'] ?? '';
 
-// Fetch User Data
 $stmt = $pdo->prepare("SELECT * FROM User WHERE nin = :nin");
 $stmt->execute(['nin' => $nin]);
 $user = $stmt->fetch();
@@ -17,7 +16,6 @@ if (!$user) {
 $success = '';
 $erreur = '';
 
-// Update Profile
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_profile') {
     $stmtUpdate = $pdo->prepare("UPDATE User SET nom = :nom, prenom = :prenom, date_naiss = :dob, prenom_pere = :father, nom_mere = :motherLast, prenom_mere = :mother, adresse = :address, email = :email, tel = :phone WHERE nin = :nin");
     
@@ -35,7 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             'nin' => $nin
         ]);
         $success = "Profil mis à jour avec succès.";
-        // Refresh User Data
         $stmt->execute(['nin' => $nin]);
         $user = $stmt->fetch();
     } catch(PDOException $e) {

@@ -1,7 +1,6 @@
 <?php
-// public space/login.php
 require_once '../includes/session.php';
-require_once '../includes/db_connect.php'; // On utilise la vraie base de données
+require_once '../includes/db_connect.php'; 
 require_once '../includes/validations.php';
 
 $erreur = '';
@@ -16,7 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (!validerEmail($email)) {
         $erreur = "Format d'email invalide.";
     } else {
-        // Recherche dans la base de données MySQL
         $stmt = $pdo->prepare("SELECT * FROM User WHERE email = :email LIMIT 1");
         $stmt->execute(['email' => $email]);
         $user = $stmt->fetch();
@@ -28,16 +26,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $erreur = "Votre compte est en attente de validation.";
             } elseif ($user['etat_compte'] == 4) {
                 $erreur = "Ce compte a été supprimé.";
-            } else { // etat_compte == 1 (actif)
-                // Création de la session
+            } else { 
                 $_SESSION['user_nin'] = $user['nin'];
                 $_SESSION['user_role'] = $user['role'];
                 $_SESSION['user_nom'] = $user['nom'];
                 
-                // Redirection basée sur le rôle
-                if ($user['role'] == 1) { // 1 = admin
+                if ($user['role'] == 1) { 
                     header('Location: ../admin-space/index.php');
-                } else { // 2 = simple user
+                } else { 
                     header('Location: ../user-space/index.php');
                 }
                 exit();

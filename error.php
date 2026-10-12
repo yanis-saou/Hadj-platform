@@ -1,5 +1,4 @@
 <?php
-// error.php
 $error_code = isset($_GET['code']) ? $_GET['code'] : 404;
 
 $messages = [

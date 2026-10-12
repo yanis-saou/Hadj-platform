@@ -5,7 +5,6 @@ redirigerSiNonAutorise('admin');
 
 $message = '';
 
-// Handle form submission to create or update a lottery
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action']) && $_POST['action'] === 'create') {
         $date_ouverture = $_POST['date_ouverture'] ?? '';
@@ -45,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Fetch all lotteries
 $tiragesStmt = $pdo->query("SELECT * FROM Tirage ORDER BY id_tirage DESC");
 $tirages = $tiragesStmt->fetchAll();
 ?>

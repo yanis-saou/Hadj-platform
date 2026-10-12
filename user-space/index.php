@@ -5,12 +5,10 @@ redirigerSiNonAutorise('user');
 
 $nin = $_SESSION['user_nin'];
 
-// Get User
 $stmtUser = $pdo->prepare("SELECT * FROM User WHERE nin = ?");
 $stmtUser->execute([$nin]);
 $user = $stmtUser->fetch();
 
-// Stats
 $stmtJoined = $pdo->prepare("SELECT COUNT(*) as total FROM Inscrits WHERE nin = ?");
 $stmtJoined->execute([$nin]);
 $totalJoined = $stmtJoined->fetch()['total'];
@@ -19,11 +17,9 @@ $stmtWins = $pdo->prepare("SELECT COUNT(*) as total FROM Resultats WHERE nin = ?
 $stmtWins->execute([$nin]);
 $totalWins = $stmtWins->fetch()['total'];
 
-// Active Lottery
 $stmtActive = $pdo->query("SELECT * FROM Tirage WHERE etat_tirage = 3 ORDER BY id_tirage DESC LIMIT 1");
 $activeTirage = $stmtActive->fetch();
 
-// Recent Joined
 $stmtRecent = $pdo->prepare("
     SELECT i.date_inscription, t.id_tirage, t.date_ouverture_insc 
     FROM Inscrits i 

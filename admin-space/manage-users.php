@@ -21,7 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     }
 }
 
-// Fetch Real Users
 $usersStmt = $pdo->query("SELECT * FROM User ORDER BY etat_compte DESC, nom ASC");
 $users = $usersStmt->fetchAll();
 ?>

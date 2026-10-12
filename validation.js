@@ -57,7 +57,7 @@ const REGEX = {
 
   nin: /^\d{18}$/,
 
-  password: /^(?=.*[A-Za-z])(?=.*\d).{8,}$/,
+  password: /^(?=.*[A-Za-z])(?=.*\d)\S{8,}$/u,
 
 
   name: /^[A-Za-zÀ-ÖØ-öø-ÿ' \-]{2,50}$/,

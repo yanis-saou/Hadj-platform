@@ -1,10 +1,8 @@
 ﻿<?php
-// public space/signup.php
 require_once '../includes/session.php';
 require_once '../includes/db_connect.php'; 
 require_once '../includes/validations.php';
 
-// Generate CSRF Token and store in session if not present
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
@@ -14,7 +12,6 @@ $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
-    // CSRF Validation
     $submitted_csrf = $_POST['csrf_token'] ?? '';
     if (!hash_equals($_SESSION['csrf_token'], $submitted_csrf)) {
         $erreur = "Erreur de sécurité (CSRF). Veuillez réessayer.";
@@ -40,7 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $confirmPassword = $_POST['confirmPassword'] ?? '';
         $terms           = isset($_POST['terms']);
 
-        // Check age server-side
         $ageValid = false;
         if (!empty($dob)) {
             $birthDate = new DateTime($dob);

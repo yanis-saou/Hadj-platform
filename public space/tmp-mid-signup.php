@@ -1,7 +1,6 @@
 ﻿<?php
-// public space/signup.php
 require_once '../includes/session.php';
-require_once '../includes/db_connect.php'; // Remplacement avec la vraie base
+require_once '../includes/db_connect.php'; 
 require_once '../includes/validations.php';
 
 $erreur = '';
@@ -72,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ':nin'          => $nin,
                     ':nom'          => $lastName,
                     ':prenom'       => $firstName,
-                    ':prenom_pere'  => $fatherName, // prenom grand pere ou pere
+                    ':prenom_pere'  => $fatherName,
                     ':nom_mere'     => $motherLastName,
                     ':prenom_mere'  => $motherName,
                     ':date_naiss'   => $dob,
@@ -157,9 +156,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php endif; ?>
 <form id="signupForm" novalidate method="POST" action="signup.php">
                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(<?php
-// public space/signup.php
 require_once '../includes/session.php';
-require_once '../includes/db_connect.php'; // Remplacement avec la vraie base
+require_once '../includes/db_connect.php'; 
 require_once '../includes/validations.php';
 
 $erreur = '';
@@ -230,7 +228,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ':nin'          => $nin,
                     ':nom'          => $lastName,
                     ':prenom'       => $firstName,
-                    ':prenom_pere'  => $fatherName, // prenom grand pere ou pere
+                    ':prenom_pere'  => $fatherName, 
                     ':nom_mere'     => $motherLastName,
                     ':prenom_mere'  => $motherName,
                     ':date_naiss'   => $dob,
@@ -495,9 +493,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         });
 
         document.getElementById('signupForm').addEventListener('submit', function (e) {
-            // e.preventDefault() retirÃ© pour permettre le POST serveur
             
-            // Si vous avez besoin d'ajouter le rÃ´le sÃ©lectionnÃ© dans le POST
             if (selectedRole) {
                 let roleInput = document.getElementById('selectedRoleInput');
                 if (!roleInput) {

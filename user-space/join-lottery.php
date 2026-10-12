@@ -5,7 +5,6 @@ redirigerSiNonAutorise('user');
 
 $nin = $_SESSION['user_nin'];
 
-// Get User info (to check if they are active and eligible)
 $stmtUser = $pdo->prepare("SELECT * FROM User WHERE nin = ?");
 $stmtUser->execute([$nin]);
 $user = $stmtUser->fetch();
@@ -14,27 +13,24 @@ $is_eligible = ($user['etat_compte'] == 1);
 $message = '';
 $error = '';
 
-// Handle Join Request
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_lottery'])) {
     if (!$is_eligible) {
         $error = "Your account is not active. You cannot join lotteries at this time.";
     } else {
         $id_tirage = intval($_POST['id_tirage']);
         
-        // Verify lottery is open
         $stmtTirage = $pdo->prepare("SELECT * FROM Tirage WHERE id_tirage = ?");
         $stmtTirage->execute([$id_tirage]);
         $tirage = $stmtTirage->fetch();
         
         if ($tirage && $tirage['etat_tirage'] == 3) {
-            // Check if already registered
             $stmtCheck = $pdo->prepare("SELECT * FROM Inscrits WHERE nin = ? AND id_tirage = ?");
             $stmtCheck->execute([$nin, $id_tirage]);
             
             if ($stmtCheck->rowCount() > 0) {
                 $error = "You are already registered for this lottery.";
             } else {
-                // Register
+                
                 $stmtInsert = $pdo->prepare("INSERT INTO Inscrits (nin, id_tirage, date_inscription) VALUES (?, ?, CURDATE())");
                 if ($stmtInsert->execute([$nin, $id_tirage])) {
                     $message = "You have successfully joined Lottery N°" . $id_tirage . "!";
@@ -48,11 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_lottery'])) {
     }
 }
 
-// Fetch all lotteries (except maybe those already done, or descending order)
 $stmtAll = $pdo->query("SELECT * FROM Tirage ORDER BY id_tirage DESC");
 $lotteries = $stmtAll->fetchAll();
 
-// Fetch lotteries this user has already joined
 $stmtMyJoined = $pdo->prepare("SELECT id_tirage FROM Inscrits WHERE nin = ?");
 $stmtMyJoined->execute([$nin]);
 $joinedTirages = [];
